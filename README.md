@@ -201,4 +201,4 @@ Our Sudoku solver uses Python's `heapq` module to implement a min-heap priority 
 
 ## License
 
-This project is open-source and available for personal and educational use.
+This project is licensed under the MIT License - see the LICENSE file for details.
