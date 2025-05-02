@@ -414,6 +414,18 @@ def recognize_and_solve_sudoku(image, model, old_sudoku):
         # Display error message on the image
         cv2.putText(image, f"Invalid puzzle: {error_message}", (20, image.shape[0] - 40), 
                     cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2, cv2.LINE_AA)
+        
+        debug_text = ""
+        for i in range(9):
+            row_text = ""
+            for j in range(9):
+                row_text += str(grid[i][j]) + " "
+            debug_text += row_text + "\n"
+        
+        # Print detected grid to console for debugging
+        print("Detected grid:")
+        print(debug_text)
+
         return image
 
     # Calculate difficulty

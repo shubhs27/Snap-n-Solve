@@ -4,25 +4,27 @@ Snap-n-Solve is a real-time Sudoku puzzle solver that uses computer vision and m
 
 ## Table of Contents
 
-- [Features](#features)
-- [Screenshots](#screenshots)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Usage](#usage)
-- [How It Works](#how-it-works)
-  - [1. Sudoku Board Detection](#1-sudoku-board-detection)
-  - [2. Digit Recognition](#2-digit-recognition)
-  - [3. Puzzle Solving](#3-puzzle-solving)
-  - [4. Solution Display](#4-solution-display)
-- [Best-First Search Algorithm](#best-first-search-algorithm)
-  - [Heap Implementation](#heap-implementation)
-  - [How It Works](#how-it-works-1)
-- [Project Structure](#project-structure)
-- [Customization](#customization)
-- [Troubleshooting](#troubleshooting)
-- [Future Improvements](#future-improvements)
-- [Acknowledgements](#acknowledgements)
-- [License](#license)
+- [Snap-n-Solve](#snap-n-solve)
+  - [Table of Contents](#table-of-contents)
+  - [Features](#features)
+  - [Screenshots](#screenshots)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [How It Works](#how-it-works)
+    - [1. Sudoku Board Detection](#1-sudoku-board-detection)
+    - [2. Digit Recognition](#2-digit-recognition)
+    - [3. Puzzle Solving](#3-puzzle-solving)
+    - [4. Solution Display](#4-solution-display)
+  - [Best-First Search Algorithm](#best-first-search-algorithm)
+    - [Heap Implementation](#heap-implementation)
+    - [How It Works](#how-it-works-1)
+  - [Project Structure](#project-structure)
+  - [Acknowledgements](#acknowledgements)
+  - [Customization](#customization)
+  - [Troubleshooting](#troubleshooting)
+  - [Future Improvements](#future-improvements)
+  - [License](#license)
 
 ## Features
 
@@ -35,19 +37,20 @@ Snap-n-Solve is a real-time Sudoku puzzle solver that uses computer vision and m
 
 ## Screenshots
 
-<!--
-![Sudoku Detection](screenshots/sudoku-detection.png)
-*Sudoku grid detection and perspective transformation*
+![Demo Video](screenshots/demo.mp4)
+_Video demonstration of the application_
 
-![Digit Recognition](screenshots/digit-recognition.png)
-*Detection of digits in the Sudoku grid*
+![Skewed Sudoku](screenshots/skewed.png)
+_Detection of a skewed Sudoku puzzle_
 
-![Solution Overlay](screenshots/solution-overlay.png)
-*Real-time overlay of the solution on the puzzle*
+![Invalid Shape Detection](screenshots/invalid_shape.png)
+_Detection of invalid grid shapes_
 
-![Difficulty Assessment](screenshots/difficulty-assessment.png)
-*Puzzle difficulty evaluation and display*
--->
+![Invalid Puzzle](screenshots/invalid.png)
+_Recognition of invalid or unsolvable puzzles_
+
+![Solved Puzzle](screenshots/solved.png)
+_Completed solution overlay on the puzzle_
 
 ## Requirements
 
