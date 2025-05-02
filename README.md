@@ -37,7 +37,8 @@ Snap-n-Solve is a real-time Sudoku puzzle solver that uses computer vision and m
 
 ## Screenshots
 
-![Demo Video](screenshots/demo.mp4)
+![Demo Video](screenshots/demo.gif)
+
 _Video demonstration of the application_
 
 ![Skewed Sudoku](screenshots/skewed.png)
