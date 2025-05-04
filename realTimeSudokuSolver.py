@@ -12,6 +12,22 @@ from keras.layers import Conv2D, MaxPooling2D
 import sudokuSolver
 import sudokuDifficulty
 import copy
+import time
+import os
+
+# Function to print grid in a readable format
+def print_grid(grid, title=""):
+    print(f"\n{title}")
+    print("+-------+-------+-------+")
+    for i in range(9):
+        print("|", end=" ")
+        for j in range(9):
+            print(grid[i][j], end=" ")
+            if j % 3 == 2:
+                print("|", end=" ")
+        print()
+        if i % 3 == 2:
+            print("+-------+-------+-------+")
 
 def write_solution_on_image(image, grid, user_grid, difficulty=None):
     SIZE = 9
@@ -165,10 +181,15 @@ def showImage(img, name, width, height):
     new_image = cv2.resize(new_image, (width, height))
     cv2.imshow(name, new_image)
 
+# Variable to track the last saved grid hash to avoid repeated saves
+last_grid_hash = None
+
 # This function take a webcam image, find the Sudoku board, 
 # recognizing digits, solve the Sudoku puzzle and
 # print the result back on the image, and then return that image
 def recognize_and_solve_sudoku(image, model, old_sudoku):
+    global last_grid_hash
+    
     # Most of the existing code remains the same...
     clone_image = np.copy(image)
     
@@ -408,6 +429,9 @@ def recognize_and_solve_sudoku(image, model, old_sudoku):
 
     user_grid = copy.deepcopy(grid)
     
+    # Create a hash of the grid to identify unique puzzles
+    grid_hash = hash(str(grid))
+    
     # Check if the puzzle is valid
     is_valid, error_message = sudokuDifficulty.is_valid_sudoku(grid)
     if not is_valid:
@@ -415,17 +439,12 @@ def recognize_and_solve_sudoku(image, model, old_sudoku):
         cv2.putText(image, f"Invalid puzzle: {error_message}", (20, image.shape[0] - 40), 
                     cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2, cv2.LINE_AA)
         
-        debug_text = ""
-        for i in range(9):
-            row_text = ""
-            for j in range(9):
-                row_text += str(grid[i][j]) + " "
-            debug_text += row_text + "\n"
+        if grid_hash != last_grid_hash:  # Only print if it's a new invalid grid
+            print("\n===== INVALID SUDOKU DETECTED =====")
+            print(f"Error: {error_message}")
+            print_grid(grid, "Detected Invalid Grid")
+            last_grid_hash = grid_hash
         
-        # Print detected grid to console for debugging
-        print("Detected grid:")
-        print(debug_text)
-
         return image
 
     # Calculate difficulty
@@ -435,23 +454,50 @@ def recognize_and_solve_sudoku(image, model, old_sudoku):
     cv2.putText(image, f"Sudoku detected - {difficulty} difficulty", (20, image.shape[0] - 40), 
                 cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
 
+    # A solved copy of the grid that we'll use for terminal output
+    solved_grid = copy.deepcopy(grid)
+    was_solved = False
+    
     # If this is the same board as last camera frame
     # Phewww, print the same solution. No need to solve it again
     if (not old_sudoku is None) and two_matrices_are_equal(old_sudoku, grid, 9, 9):
         if(sudokuSolver.all_board_non_zero(grid)):
             orginal_warp = write_solution_on_image(orginal_warp, old_sudoku, user_grid, difficulty)
+            solved_grid = copy.deepcopy(old_sudoku)
+            was_solved = True
     # If this is a different board
     else:
-        sudokuSolver.solve_sudoku(grid) # Solve it
-        if(sudokuSolver.all_board_non_zero(grid)): # If we got a solution
-            orginal_warp = write_solution_on_image(orginal_warp, grid, user_grid, difficulty)
-            old_sudoku = copy.deepcopy(grid)      # Keep the old solution
+        sudokuSolver.solve_sudoku(solved_grid)  # Solve it
+        if(sudokuSolver.all_board_non_zero(solved_grid)):  # If we got a solution
+            orginal_warp = write_solution_on_image(orginal_warp, solved_grid, user_grid, difficulty)
+            old_sudoku = copy.deepcopy(solved_grid)  # Keep the old solution
+            was_solved = True
         else:
             # No solution found - likely invalid input or unsolvable puzzle
             cv2.putText(image, "No solution found - invalid or unsolvable puzzle", 
                       (20, image.shape[0] - 40), cv2.FONT_HERSHEY_SIMPLEX, 
                       0.8, (0, 0, 255), 2, cv2.LINE_AA)
+            
+            if grid_hash != last_grid_hash:  # Only print if it's a new unsolvable grid
+                print("\n===== UNSOLVABLE SUDOKU DETECTED =====")
+                print_grid(grid, "Detected Unsolvable Grid")
+                last_grid_hash = grid_hash
+                
             return image
+
+    # If this is a new grid and we successfully solved it, print to terminal
+    if grid_hash != last_grid_hash and was_solved:
+        timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+        print("\n" + "="*50)
+        print(f"SUDOKU DETECTED AND SOLVED | {timestamp}")
+        print(f"Difficulty: {difficulty} (Score: {score})")
+        print("="*50)
+        
+        print_grid(user_grid, "Original Detected Grid")
+        print_grid(solved_grid, "Solved Grid")
+        
+        # Update the last grid hash
+        last_grid_hash = grid_hash
 
     # Apply inverse perspective transform and paste the solutions on top of the orginal image
     result_sudoku = cv2.warpPerspective(orginal_warp, perspective_transformed_matrix, (image.shape[1], image.shape[0]), flags=cv2.WARP_INVERSE_MAP)
