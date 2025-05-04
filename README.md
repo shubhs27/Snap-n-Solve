@@ -43,27 +43,27 @@ Snap-n-Solve is a real-time Sudoku puzzle solver that uses computer vision and m
 </p>
 
 <p>
-  <img src="screenshots/skewed.png" alt="Skewed Sudoku" width="500"/><br/>
+  <img src="screenshots/skewed.png" alt="Skewed Sudoku" width="600"/><br/>
   <em>Detection of a skewed Sudoku puzzle</em>
 </p>
 
 <p>
-  <img src="screenshots/invalid_shape.png" alt="Invalid Shape Detection" width="500"/><br/>
+  <img src="screenshots/invalid_shape.png" alt="Invalid Shape Detection" width="600"/><br/>
   <em>Detection of invalid grid shapes</em>
 </p>
 
 <p>
-  <img src="screenshots/invalid.png" alt="Invalid Puzzle" width="500"/><br/>
+  <img src="screenshots/invalid.png" alt="Invalid Puzzle" width="600"/><br/>
   <em>Recognition of invalid or unsolvable puzzles</em>
 </p>
 
 <p>
-  <img src="screenshots/solved.png" alt="Solved Puzzle" width="500"/><br/>
+  <img src="screenshots/solved.png" alt="Solved Puzzle" width="600"/><br/>
   <em>Completed solution overlay on the puzzle</em>
 </p>
 
 <p>
-  <img src="screenshots/terminal.png" alt="Terminal" width="500"/><br/>
+  <img src="screenshots/terminal.png" alt="Terminal" width="400"/><br/>
   <em>Completed solution in the terminal</em>
 </p>
 
