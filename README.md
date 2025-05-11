@@ -2,7 +2,7 @@
 
 Snap-n-Solve is a real-time Sudoku puzzle solver that uses computer vision and machine learning to detect, solve, and overlay solutions on Sudoku puzzles captured through your webcam.
 
-## Table of Contents
+## Table of Contents 
 
 - [Snap-n-Solve](#snap-n-solve)
   - [Table of Contents](#table-of-contents)
